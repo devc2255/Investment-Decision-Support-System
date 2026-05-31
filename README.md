@@ -44,15 +44,14 @@ Example `.streamlit/secrets.toml`:
 FINNHUB_API_KEY = "your_finnhub_api_key"
 ```
 
-## Run the App
+## Run the App Locally through VScode Terminal
 
 ```bash
 streamlit run app.py
 ```
 
 ## Live Demo
-
-Once the Streamlit app is running, open the local URL shown in your terminal, typically `https://investment-decision-support-system-h7pderxebhpp4zcd8quhed.streamlit.app/`.
+Streamlit Community Online Deployed - `https://investment-decision-support-system-h7pderxebhpp4zcd8quhed.streamlit.app/`.
 
 - Use the sidebar to configure your Finnhub API key, search or enter a ticker, and autofill company details.
 - Add deals to the pipeline and monitor them in the Active Ledger.
