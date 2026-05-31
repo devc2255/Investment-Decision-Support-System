@@ -1,6 +1,7 @@
 streamlit
 pandas
 finnhub-python
-nltk
+torch
+transformers
 xgboost
 plotly
