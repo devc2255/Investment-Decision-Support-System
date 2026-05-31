@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 class FinnhubClient:
     def __init__(self):
-        self.api_key = st.secrets.get("FINNHUB_API_KEY", "")
+        self.api_key = os.environ.get("FINNHUB_API_KEY")
         self.base_url = "https://finnhub.io/api/v1"
 
     def is_configured(self):
