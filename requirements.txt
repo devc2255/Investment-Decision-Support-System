@@ -4,3 +4,4 @@ finnhub-python
 transformers
 torch
 xgboost
+plotly
