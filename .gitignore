@@ -1,0 +1,11 @@
+#Database
+*.db
+
+#Python bytecode/caches
+__pycache__/
+*.pyc
+
+#Environment Variables/ local keys
+.env
+.env.local
+.env.*
