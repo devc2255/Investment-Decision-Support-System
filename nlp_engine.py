@@ -1,16 +1,13 @@
 import streamlit as st
-import nltk
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from transformers import pipeline
 
 @st.cache_resource
 def load_sentiment_model():
     """
-    Initializes the NLTK VADER sentiment analyzer.
-    Ensures the resource downloader runs only once and caches the analyzer object.
+    Loads the FinBERT model. 
+    @st.cache_resource ensures the model is kept in memory across UI reloads.
     """
-    # Securely download the tiny lexicon data file silently
-    nltk.download('vader_lexicon', quiet=True)
-    return SentimentIntensityAnalyzer()
+    return pipeline("sentiment-analysis", model="ProsusAI/finbert")
 
 def analyze_sentiment(headlines):
     if not headlines:
@@ -19,29 +16,18 @@ def analyze_sentiment(headlines):
     analyzer = load_sentiment_model()
     
     # Process up to the 15 most recent headlines to keep the UI fast
-    target_headlines = headlines[:15]
+    results = analyzer(headlines[:15])
     
     sentiment_counts = {"positive": 0, "negative": 0, "neutral": 0}
-    
-    for text in target_headlines:
-        # VADER outputs scores for pos, neg, neu, and a compound aggregate
-        scores = analyzer.polarity_scores(text)
-        compound = scores['compound']
+    for res in results:
+        label = res['label'].lower()
+        sentiment_counts[label] += 1
         
-        # Map VADER's compound mathematical score to your standard labels
-        if compound >= 0.05:
-            sentiment_counts["positive"] += 1
-        elif compound <= -0.05:
-            sentiment_counts["negative"] += 1
-        else:
-            sentiment_counts["neutral"] += 1
-        
-    total = len(target_headlines)
+    total = len(results)
     bullish_pct = (sentiment_counts['positive'] / total) * 100
     bearish_pct = (sentiment_counts['negative'] / total) * 100
     neutral_pct = (sentiment_counts['neutral'] / total) * 100
     
-    # Maintain your exact logic thresholds for determining overall market sentiment
     overall = "Neutral"
     if bullish_pct > bearish_pct and bullish_pct >= 40:
         overall = "Bullish"
