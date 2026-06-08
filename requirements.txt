@@ -2,6 +2,7 @@ streamlit
 pandas
 finnhub-python
 torch
+torchvision
 transformers
 xgboost
 plotly
